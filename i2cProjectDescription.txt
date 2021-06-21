@@ -1,0 +1,62 @@
+1. Hol az arduino main fv-e?
+    - Arduino IDE -> uj projekt
+        - az uj projekt letrehoz 2 fv:
+            - setup()
+            - loop()
+        ! main() a belepesi pont, valahol leteznie kell hogy meghivja a setup() es loop() fv-eket
+    - becsles: 2h
+    - cel: program forditas IDE-n kivulrol (az IDE altal hasznalt parameterekkel)
+        
+    - eredmeny: 1h
+        /home/ecsanadi/Downloads/arduino-1.8.9/hardware/arduino/avr/cores/arduino/main.cpp 
+        
+2. Programhoz tartozo forrasfileok osszegyujtese, i2c vezerlo visszafejtese erdekeben, forditas => hex file generalas
+    -becsles 2h
+
+    /Projects/liquidTest > grep -i "avr" buildCommands.txt |  grep -io "\-I.* "
+
+    
+    
+    source (vagy . ) filename -> file tartalom parancssorba illesztese
+    (https://linuxize.com/post/bash-source-command/)
+    
+    
+    echo "mosolygosmadar" | xargs -I {} -n 1 echo "te vagy egy {} nekem"
+    find . -name "binary.h" | xargs -I path -n 1 cp path /home/ecsanadi/Projects/liquidTest/
+
+    a pipe elotti kimenetet beteszi a {} vagy path "valtozoba" amit kesobb hasznalunk es behelyettesiti
+    
+    gcc/g++ -E -> elofordito (nem buildel csak kiirja az eloforditas eredmenyet {makrok lathatok))
+    "Stop after the preprocessing stage; do not run the compiler proper. The output is in the form of preprocessed source code, which is sent to the standard output."
+    
+    gcc/g++ -c -> nem linkel csak fordit (the -c
+       option says not to run the linker)
+       
+       FELADAT: -Wl,--gc-sections kimenet ellenorzese
+       (https://gcc.gnu.org/onlinedocs/gnat_ugn/Compilation-options.html)
+
+     - eredmeny: 7h
+
+3. build struktura
+  - build dir
+    - executables
+  - intermediate dir
+    - object fileok
+  -git repo (gitignore, makefile update)
+
+  - becsles: 2h
+
+
+4. source struktura
+
+
+
+5. program kiiras nanora
+  - /Downloads/arduino-1.8.9/hardware/tools/avr/bin > ./avrdude 
+
+6. mire jo az elf
+
+
+
+
+
