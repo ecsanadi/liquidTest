@@ -39,9 +39,9 @@
 
 3. build struktura
   - build dir
-    - executables
-  - intermediate dir
-    - object fileok
+    - object files
+  - output dir
+    - hex + elf
   -git repo (gitignore, makefile update)
 
   - becsles: 2h
