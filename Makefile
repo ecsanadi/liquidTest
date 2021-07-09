@@ -1,3 +1,39 @@
+BUILD_DIR="./build"
+OUTPUT_DIR="./output"
+
+C_SOURCES = hooks.c
+CPP_SOURCES = main.cpp Wire.cpp
+
+CPP_BUILD_PARAM_1 = "/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I." 
+
+CPP_BUILD_PARAM_2 = "/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11"
+
+#c_build:
+
+
+
+cpp_build:
+	@$(foreach f, $(CPP_SOURCES), \
+	echo $(basename $f); \
+	$(CPP_BUILD_PARAM_1) $f -o $(BUILD_DIR)/$(basename $f).o ; \
+	echo "cpp_build!!!!!" ;\
+	echo $(CPP_BUILD_PARAM_1) $f -o $(BUILD_DIR)/$(basename $f).o ;)
+
+
+cica: make_build_dirs cpp_build
+	echo "cica"
+	#/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. main.cpp -o $(BUILD_DIR)/main.o
+
+.PHONY : compile
+compile: make_build_dirs
+	
+
+.PHONY : make_build_dirs
+make_build_dirs:
+	mkdir -p $(BUILD_DIR)
+	mkdir -p $(OUTPUT_DIR)
+
+
 .PHONY : all
 all:
 	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. main.cpp
@@ -94,4 +130,5 @@ clean:
 	rm -f *.hex
 	rm -f *.d
 	rm -f *.eep
-
+	rm -rf $(BUILD_DIR)
+	rm -rf $(OUTPUT_DIR)
