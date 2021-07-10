@@ -4,16 +4,24 @@ OUTPUT_DIR="./output"
 C_SOURCES = hooks.c
 CPP_SOURCES = main.cpp Wire.cpp
 
-CPP_BUILD_PARAM_1 = "/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I." 
+COMPILER = avr-g++
 
-CPP_BUILD_PARAM_2 = "/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11"
 
-#c_build:
+CPP_BUILD_PARAM_1 = $(COMPILER) -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.
 
+CPP_BUILD_PARAM_2 = $(COMPILER) -c -g -Os -w -std=gnu++11
+
+BC1=avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.
+
+BC2=avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.
+
+BC3=avr-gcc -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.
+
+BC4=avr-gcc -c -g -x assembler-with-cpp -flto -MMD -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.
 
 
 cpp_build:
-	@$(foreach f, $(CPP_SOURCES), \
+	$(foreach f, $(CPP_SOURCES), \
 	echo $(basename $f); \
 	$(CPP_BUILD_PARAM_1) $f -o $(BUILD_DIR)/$(basename $f).o ; \
 	echo "cpp_build!!!!!" ;\
@@ -22,7 +30,7 @@ cpp_build:
 
 cica: make_build_dirs cpp_build
 	echo "cica"
-	#/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. main.cpp -o $(BUILD_DIR)/main.o
+	#/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/$(BC1) main.cpp -o $(BUILD_DIR)/main.o
 
 .PHONY : compile
 compile: make_build_dirs
@@ -36,91 +44,92 @@ make_build_dirs:
 
 .PHONY : all
 all:
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. main.cpp
+	$(BC1) main.cpp
 	
 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. Wire.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. twi.c -o twi_nemkell.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  FastIO.cpp  
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  I2CIO.cpp 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  LCD.cpp 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  LiquidCrystal.cpp 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  LiquidCrystal_I2C_ByVac.cpp 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  LiquidCrystal_I2C.cpp 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  LiquidCrystal_SI2C.cpp 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  LiquidCrystal_SR1W.cpp 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  LiquidCrystal_SR2W.cpp 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  LiquidCrystal_SR3W.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  LiquidCrystal_SR.cpp 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  SI2CIO.cpp 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.  lcdClock.ino.cpp 
-#	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. /tmp/arduino_build_185674/sketch/lcdClock.ino.cpp -o /tmp/arduino_build_185674/preproc/ctags_target_for_gcc_minus_e.cpp
+	$(BC1) Wire.cpp
+	$(BC1) twi.c -o twi_nemkell.o
+	$(BC1)  FastIO.cpp  
+	$(BC1)  I2CIO.cpp 
+	$(BC1)  LCD.cpp 
+	$(BC1)  LiquidCrystal.cpp 
+	$(BC1)  LiquidCrystal_I2C_ByVac.cpp 
+	$(BC1)  LiquidCrystal_I2C.cpp 
+	$(BC1)  LiquidCrystal_SI2C.cpp 
+	$(BC1)  LiquidCrystal_SR1W.cpp 
+	$(BC1)  LiquidCrystal_SR2W.cpp 
+	$(BC1)  LiquidCrystal_SR3W.cpp
+	$(BC1)  LiquidCrystal_SR.cpp 
+	$(BC1)  SI2CIO.cpp 
+	$(BC1)  lcdClock.ino.cpp 
+#	$(BC1) /tmp/arduino_build_185674/sketch/lcdClock.ino.cpp -o /tmp/arduino_build_185674/preproc/ctags_target_for_gcc_minus_e.cpp
 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. Wire.cpp -o Wire.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. twi.c -o twi.o
+	$(BC2) Wire.cpp -o Wire.o
+	$(BC3) twi.c -o twi.o
 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. abi.cpp 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. CDC.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. HardwareSerial0.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. HardwareSerial1.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. HardwareSerial2.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. HardwareSerial3.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. HardwareSerial.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. IPAddress.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. main.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. new.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. PluggableUSB.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. Print.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. Stream.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. Tone.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. USBCore.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. WMath.cpp
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -Wall -Wextra -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -MMD -flto -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. WString.cpp
+	$(BC2) abi.cpp 
+	$(BC2) CDC.cpp
+	$(BC2) HardwareSerial0.cpp
+	$(BC2) HardwareSerial1.cpp
+	$(BC2) HardwareSerial2.cpp
+
+	$(BC2) HardwareSerial3.cpp
+	$(BC2) HardwareSerial.cpp
+	$(BC2) IPAddress.cpp
+	$(BC2) main.cpp
+	$(BC2) new.cpp
+	$(BC2) PluggableUSB.cpp
+	$(BC2) Print.cpp
+	$(BC2) Stream.cpp
+	$(BC2) Tone.cpp
+	$(BC2) USBCore.cpp
+	$(BC2) WMath.cpp
+	$(BC2) WString.cpp
 
 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc -c -g -x assembler-with-cpp -flto -MMD -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. wiring_pulse.S -o wiring_pulse_s.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. wiring_digital.c
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. wiring.c
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. wiring_pulse.c
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. hooks.c
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. wiring_analog.c
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. WInterrupts.c
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. wiring_shift.c
+	$(BC4) wiring_pulse.S -o wiring_pulse_s.o
+	$(BC3) wiring_digital.c
+	$(BC3) wiring.c
+	$(BC3) wiring_pulse.c
+	$(BC3) hooks.c
+	$(BC3) wiring_analog.c
+	$(BC3) WInterrupts.c
+	$(BC3) wiring_shift.c
 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a CDC.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a HardwareSerial.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a HardwareSerial0.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a HardwareSerial1.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a HardwareSerial2.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a HardwareSerial3.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a IPAddress.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a PluggableUSB.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a Print.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a Stream.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a Tone.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a USBCore.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a WInterrupts.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a WMath.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a WString.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a abi.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a hooks.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a main.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a new.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a wiring.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a wiring_analog.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a wiring_digital.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a wiring_pulse_s.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a wiring_pulse.o
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs core.a wiring_shift.o
+	avr-gcc-ar rcs core.a CDC.o
+	avr-gcc-ar rcs core.a HardwareSerial.o
+	avr-gcc-ar rcs core.a HardwareSerial0.o
+	avr-gcc-ar rcs core.a HardwareSerial1.o
+	avr-gcc-ar rcs core.a HardwareSerial2.o
+	avr-gcc-ar rcs core.a HardwareSerial3.o
+	avr-gcc-ar rcs core.a IPAddress.o
+	avr-gcc-ar rcs core.a PluggableUSB.o
+	avr-gcc-ar rcs core.a Print.o
+	avr-gcc-ar rcs core.a Stream.o
+	avr-gcc-ar rcs core.a Tone.o
+	avr-gcc-ar rcs core.a USBCore.o
+	avr-gcc-ar rcs core.a WInterrupts.o
+	avr-gcc-ar rcs core.a WMath.o
+	avr-gcc-ar rcs core.a WString.o
+	avr-gcc-ar rcs core.a abi.o
+	avr-gcc-ar rcs core.a hooks.o
+	avr-gcc-ar rcs core.a main.o
+	avr-gcc-ar rcs core.a new.o
+	avr-gcc-ar rcs core.a wiring.o
+	avr-gcc-ar rcs core.a wiring_analog.o
+	avr-gcc-ar rcs core.a wiring_digital.o
+	avr-gcc-ar rcs core.a wiring_pulse_s.o
+	avr-gcc-ar rcs core.a wiring_pulse.o
+	avr-gcc-ar rcs core.a wiring_shift.o
 
-#	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. twi.c
-#	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++ -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I. Wire.cpp
+#	$(BC1) twi.c
+#	$(BC1) Wire.cpp
 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc -Wall -Wextra -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o lcdClock.ino.elf lcdClock.ino.o twi.o Wire.o FastIO.o I2CIO.o LCD.o LiquidCrystal.o LiquidCrystal_I2C.o LiquidCrystal_I2C_ByVac.o LiquidCrystal_SI2C.o LiquidCrystal_SR.o LiquidCrystal_SR1W.o LiquidCrystal_SR2W.o LiquidCrystal_SR3W.o SI2CIO.o core.a -L. -lm
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 lcdClock.ino.elf lcdClock.ino.eep
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-objcopy -O ihex -R .eeprom lcdClock.ino.elf lcdClock.ino.hex
+	avr-gcc -Wall -Wextra -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o lcdClock.ino.elf lcdClock.ino.o twi.o Wire.o FastIO.o I2CIO.o LCD.o LiquidCrystal.o LiquidCrystal_I2C.o LiquidCrystal_I2C_ByVac.o LiquidCrystal_SI2C.o LiquidCrystal_SR.o LiquidCrystal_SR1W.o LiquidCrystal_SR2W.o LiquidCrystal_SR3W.o SI2CIO.o core.a -L. -lm
+	avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 lcdClock.ino.elf lcdClock.ino.eep
+	avr-objcopy -O ihex -R .eeprom lcdClock.ino.elf lcdClock.ino.hex
 
-	/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-size -A lcdClock.ino.elf
+	avr-size -A lcdClock.ino.elf
 
 .PHONY: clean
 clean:
