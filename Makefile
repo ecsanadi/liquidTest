@@ -2,7 +2,23 @@ BUILD_DIR="./build"
 OUTPUT_DIR="./output"
 
 C_SOURCES = hooks.c
-CPP_SOURCES = main.cpp Wire.cpp
+CPP_SOURCES = \
+              main.cpp \
+              Wire.cpp \
+              FastIO.cpp \
+              I2CIO.cpp \
+              LCD.cpp \
+              LiquidCrystal.cpp \
+              LiquidCrystal_I2C_ByVac.cpp \
+              LiquidCrystal_I2C.cpp \
+              LiquidCrystal_SI2C.cpp \
+              LiquidCrystal_SR1W.cpp \
+              LiquidCrystal_SR2W.cpp \
+              LiquidCrystal_SR3W.cpp \
+              LiquidCrystal_SR.cpp \
+              SI2CIO.cpp \
+              lcdClock.ino.cpp \
+
 
 COMPILER = avr-g++
 
@@ -19,18 +35,16 @@ BC3=avr-gcc -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata-sectio
 
 BC4=avr-gcc -c -g -x assembler-with-cpp -flto -MMD -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.
 
-
-cpp_build:
-	$(foreach f, $(CPP_SOURCES), \
-	echo $(basename $f); \
-	$(CPP_BUILD_PARAM_1) $f -o $(BUILD_DIR)/$(basename $f).o ; \
-	echo "cpp_build!!!!!" ;\
-	echo $(CPP_BUILD_PARAM_1) $f -o $(BUILD_DIR)/$(basename $f).o ;)
-
-
+#the first rule
 cica: make_build_dirs cpp_build
 	echo "cica"
 	#/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/$(BC1) main.cpp -o $(BUILD_DIR)/main.o
+
+cpp_build:
+	$(foreach f, $(CPP_SOURCES), \
+	$(BC1) $f -o $(BUILD_DIR)/$(basename $f).o ;)
+
+
 
 .PHONY : compile
 compile: make_build_dirs
