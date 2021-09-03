@@ -2,23 +2,6 @@ BUILD_DIR="./build"
 OUTPUT_DIR="./output"
 
 C_SOURCES = hooks.c
-CPP_SOURCES = \
-              main.cpp \
-              Wire.cpp \
-              FastIO.cpp \
-              I2CIO.cpp \
-              LCD.cpp \
-              LiquidCrystal.cpp \
-              LiquidCrystal_I2C_ByVac.cpp \
-              LiquidCrystal_I2C.cpp \
-              LiquidCrystal_SI2C.cpp \
-              LiquidCrystal_SR1W.cpp \
-              LiquidCrystal_SR2W.cpp \
-              LiquidCrystal_SR3W.cpp \
-              LiquidCrystal_SR.cpp \
-              SI2CIO.cpp \
-              lcdClock.ino.cpp \
-
 BC1_SOURCES = main.cpp \
               Wire.cpp \
               twi.c -o twi_nemkell.o \
@@ -37,57 +20,57 @@ BC1_SOURCES = main.cpp \
               lcdClock.ino.cpp  \
 
 BC2_SOURCES =	abi.cpp \
-							CDC.cpp\
-							HardwareSerial0.cpp\
-							HardwareSerial1.cpp\
-							HardwareSerial2.cpp\
-							HardwareSerial3.cpp\
-							HardwareSerial.cpp\
-							IPAddress.cpp\
-							main.cpp\
-							new.cpp\
-							PluggableUSB.cpp\
-							Print.cpp\
-							Stream.cpp\
-							Tone.cpp\
-							USBCore.cpp\
-							WMath.cpp\
-							WString.cpp\
+              CDC.cpp\
+              HardwareSerial0.cpp\
+              HardwareSerial1.cpp\
+              HardwareSerial2.cpp\
+              HardwareSerial3.cpp\
+              HardwareSerial.cpp\
+              IPAddress.cpp\
+              main.cpp\
+              new.cpp\
+              PluggableUSB.cpp\
+              Print.cpp\
+              Stream.cpp\
+              Tone.cpp\
+              USBCore.cpp\
+              WMath.cpp\
+              WString.cpp\
 
 
 BC3_SOURCES =  wiring_digital.c \
-							 wiring.c \
-							 wiring_pulse.c \
-							 hooks.c \
-							 wiring_analog.c \
-							 WInterrupts.c \
-							 wiring_shift.c \
+               wiring.c \
+               wiring_pulse.c \
+               hooks.c \
+               wiring_analog.c \
+               WInterrupts.c \
+               wiring_shift.c \
 
 OBJECTS = $(BUILD_DIR)/CDC.o \
-					$(BUILD_DIR)/HardwareSerial.o \
-					$(BUILD_DIR)/HardwareSerial0.o \
-					$(BUILD_DIR)/HardwareSerial1.o \
-					$(BUILD_DIR)/HardwareSerial2.o \
-					$(BUILD_DIR)/HardwareSerial3.o \
-					$(BUILD_DIR)/IPAddress.o \
-					$(BUILD_DIR)/PluggableUSB.o \
-					$(BUILD_DIR)/Print.o \
-					$(BUILD_DIR)/Stream.o \
-					$(BUILD_DIR)/Tone.o \
-					$(BUILD_DIR)/USBCore.o \
-					$(BUILD_DIR)/WInterrupts.o \
-					$(BUILD_DIR)/WMath.o \
-					$(BUILD_DIR)/WString.o \
-					$(BUILD_DIR)/abi.o \
-					$(BUILD_DIR)/hooks.o \
-					$(BUILD_DIR)/main.o \
-					$(BUILD_DIR)/new.o \
-					$(BUILD_DIR)/wiring.o \
-					$(BUILD_DIR)/wiring_analog.o \
-					$(BUILD_DIR)/wiring_digital.o \
-					$(BUILD_DIR)/wiring_pulse_s.o \
-					$(BUILD_DIR)/wiring_pulse.o \
-					$(BUILD_DIR)/wiring_shift.o \
+          $(BUILD_DIR)/HardwareSerial.o \
+          $(BUILD_DIR)/HardwareSerial0.o \
+          $(BUILD_DIR)/HardwareSerial1.o \
+          $(BUILD_DIR)/HardwareSerial2.o \
+          $(BUILD_DIR)/HardwareSerial3.o \
+          $(BUILD_DIR)/IPAddress.o \
+          $(BUILD_DIR)/PluggableUSB.o \
+          $(BUILD_DIR)/Print.o \
+          $(BUILD_DIR)/Stream.o \
+          $(BUILD_DIR)/Tone.o \
+          $(BUILD_DIR)/USBCore.o \
+          $(BUILD_DIR)/WInterrupts.o \
+          $(BUILD_DIR)/WMath.o \
+          $(BUILD_DIR)/WString.o \
+          $(BUILD_DIR)/abi.o \
+          $(BUILD_DIR)/hooks.o \
+          $(BUILD_DIR)/main.o \
+          $(BUILD_DIR)/new.o \
+          $(BUILD_DIR)/wiring.o \
+          $(BUILD_DIR)/wiring_analog.o \
+          $(BUILD_DIR)/wiring_digital.o \
+          $(BUILD_DIR)/wiring_pulse_s.o \
+          $(BUILD_DIR)/wiring_pulse.o \
+          $(BUILD_DIR)/wiring_shift.o \
 
 
 COMPILER_XX = /home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++
