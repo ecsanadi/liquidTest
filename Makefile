@@ -4,7 +4,7 @@ OUTPUT_DIR="./output"
 C_SOURCES = hooks.c
 BC1_SOURCES = main.cpp \
               Wire.cpp \
-              twi.c -o twi_nemkell.o \
+              twi.c \
               FastIO.cpp   \
               I2CIO.cpp  \
               LCD.cpp  \
@@ -71,6 +71,9 @@ OBJECTS = $(BUILD_DIR)/CDC.o \
           $(BUILD_DIR)/wiring_pulse_s.o \
           $(BUILD_DIR)/wiring_pulse.o \
           $(BUILD_DIR)/wiring_shift.o \
+					$(BUILD_DIR)/twi.o \
+					#$(BUILD_DIR)/lcdClock.ino.o \
+					#$(BUILD_DIR)/twi.nemkell.o \
 
 
 COMPILER_XX = /home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-g++
@@ -88,7 +91,9 @@ BC3=$(COMPILER_CC) -c -g -Os -Wall -Wextra -std=gnu11 -ffunction-sections -fdata
 
 BC4=$(COMPILER_CC) -c -g -x assembler-with-cpp -flto -MMD -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.
 
-core_command=avr-gcc-ar rcs $(BUILD_DIR)/core.a
+BC_twi=$(COMPILER_XX) -c -g -Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -Wno-error=narrowing -flto -w -x c++ -E -CC -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10809 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR -I.
+
+core_command=/home/ecsanadi/Downloads/arduino-1.8.9/hardware/tools/avr/bin/avr-gcc-ar rcs $(BUILD_DIR)/core.a
 
 #the first rule
 #cica: make_build_dirs compile make_core create_output
@@ -98,6 +103,7 @@ core_command=avr-gcc-ar rcs $(BUILD_DIR)/core.a
 bc1_build:
 	$(foreach f, $(BC1_SOURCES), \
 	$(BC1) $f -o $(BUILD_DIR)/$(basename $f).o ;)
+	$(BC_twi) twi.c -o $(BUILD_DIR)/twi.nemkell.o
 
 bc2_build:
 	$(foreach f, $(BC2_SOURCES), \
@@ -119,18 +125,18 @@ make_build_dirs:
 
 .PHONY : compile
 compile: 
-	bc1_build
+	$(MAKE) bc1_build
 	$(BC2) Wire.cpp -o $(BUILD_DIR)/Wire.o
 	$(BC3) twi.c -o $(BUILD_DIR)/twi.o
-	bc2_build
+	$(MAKE) bc2_build
 	$(BC4) wiring_pulse.S -o $(BUILD_DIR)/wiring_pulse_s.o
-	bc3_build
-#	$(BC1) twi.c
-#	$(BC1) Wire.cpp
+	$(MAKE) bc3_build
+	$(BC1) twi.c
+	$(BC1) Wire.cpp
 
 .PHONY : create_output
 create_output:
-	avr-gcc -Wall -Wextra -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o lcdClock.ino.elf $(OBJECTS) $(BUILD_DIR)/core.a -L. -lm
+	$(COMPILER_CC) -Wall -Wextra -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -o lcdClock.ino.elf $(OBJECTS) $(BUILD_DIR)/core.a -L. -lm
 	avr-objcopy -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0 lcdClock.ino.elf lcdClock.ino.eep
 	avr-objcopy -O ihex -R .eeprom lcdClock.ino.elf lcdClock.ino.hex
 
